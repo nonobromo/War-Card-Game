@@ -1,12 +1,3 @@
-const types = {
-    taki: "taki",
-    changeColor: "change",
-    stop: "stop",
-    plus: "plus",
-    take2: "take2",
-    reverse: "reverse"
-}
-
 const SUITS = ["♠", "♣", "♥", "♦"]
 const VALUES = [
     "A",
@@ -54,7 +45,7 @@ export default class Deck {
     }
 }
 
-class Card {
+export class Card {
     constructor(suit, value) {
         this.suit = suit;
         this.value = value;
@@ -68,6 +59,13 @@ class Card {
         const cardDiv = document.createElement("div");
         cardDiv.innerHTML = this.suit
         cardDiv.classList.add("card", this.color);
+        cardDiv.dataset.value = `${this.value} `
+        return cardDiv;
+    }
+
+    cardHTML() {
+        const cardDiv = document.createElement("div");
+        cardDiv.classList.add("hiddenCard");
         cardDiv.dataset.value = `${this.value} `
         return cardDiv;
     }
