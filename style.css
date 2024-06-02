@@ -156,6 +156,12 @@ button {
     display: none;
 }
 
+.play {
+    display: block;
+    font-size: 2em;
+    color: white;
+}
+
 @keyframes fadeInAnimation {
     0% {
         opacity: 0;
