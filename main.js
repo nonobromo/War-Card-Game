@@ -58,7 +58,7 @@ function startGame() {
     gameDeck = new Deck();
     gameDeck.shuffle();
 
-    const halfDeck = Math.ceil(gameDeck.numberOfCards / 4 - 10);
+    const halfDeck = Math.ceil(gameDeck.numberOfCards / 2);
     playerDeck = new Deck(gameDeck.cards.slice(0, halfDeck));
     computerDeck = new Deck(gameDeck.cards.slice(halfDeck, gameDeck.numberOfCards));
 
