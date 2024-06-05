@@ -162,6 +162,17 @@ button {
     color: white;
 }
 
+.middle-area {
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: space-between;
+}
+
+.war-btn {
+    display: none;
+}
+
 @keyframes fadeInAnimation {
     0% {
         opacity: 0;

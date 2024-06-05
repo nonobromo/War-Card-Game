@@ -7,6 +7,7 @@ const playerDeckDiv = document.querySelector(".player1-deck");
 const computerDeckDiv = document.querySelector(".player2-deck");
 const btnReset = document.getElementById("btn-reset");
 const text = document.querySelector("#game-state");
+const warBtn = document.querySelector(".war-btn");
 
 let gameDeck, playerDeck, computerDeck, gameRound, stopGame
 
@@ -32,7 +33,6 @@ const CARD_VALUE_MAP = {
     A: 14
 }
 
-
 //Click handler events for each situation
 playerCards.addEventListener("click", () => {
     if (stopGame) {
@@ -45,10 +45,6 @@ playerCards.addEventListener("click", () => {
     } else {
         playRound()
     }
-
-    if (warState) {
-        warFunction()
-    }
 })
 
 //Function to start the game give each player an even ammount of cards
@@ -58,7 +54,7 @@ function startGame() {
     gameDeck = new Deck();
     gameDeck.shuffle();
 
-    const halfDeck = Math.ceil(gameDeck.numberOfCards / 2);
+    const halfDeck = Math.ceil(gameDeck.numberOfCards / 4 - 10);
     playerDeck = new Deck(gameDeck.cards.slice(0, halfDeck));
     computerDeck = new Deck(gameDeck.cards.slice(halfDeck, gameDeck.numberOfCards));
 
@@ -124,10 +120,12 @@ function checkForWinner(cardOne, cardTwo) {
         text.innerHTML = "Draw";
         return;
     } else if (cardOneValue === cardTwoValue) {
+        warBtn.style.display = "block"
         text.innerHTML = "War!";
         warArr.push(cardOne);
         warArr.push(cardTwo);
         warState = true;
+        playerCards.classList.add("disableCard")
     }
 
     if (gameOver(playerDeck)) {
@@ -149,11 +147,14 @@ function checkForWinner(cardOne, cardTwo) {
 
 //Starts the war function
 
+warBtn.addEventListener("click", warFunction);
+
 function warFunction() {
     cleanBoard();
     const playerTopCard = playerDeck.pop();
     const computerTopCard = computerDeck.pop();
     updateCardsNum();
+    console.log(playerTopCard.cardHTML());
     playerDeckDiv.appendChild(playerTopCard.cardHTML());
     computerDeckDiv.appendChild(computerTopCard.cardHTML());
     warArr.push(playerTopCard, computerTopCard);
@@ -189,20 +190,26 @@ function warFunction() {
 
 function checkWarWinner(card1, card2) {
     if (card1 > card2) {
+        warState = false;
+        gameRound = false;
         text.innerHTML = "Player Wins";
         playerDeck.cards = [...warArr, ...playerDeck.cards];
         updateCardsNum()
         warArr = []
+        playerCards.classList.remove("disableCard")
+        playRound();
+    } else if (card2 > card1) {
         warState = false;
         gameRound = false
-    } else if (card2 > card1) {
         text.innerHTML = "Computer Wins"
         computerDeck.cards = [...warArr, ...computerDeck.cards];
         updateCardsNum();
         warArr = []
+        playerCards.classList.remove("disableCard")
+        playRound();
+    } else if (card1 === card2) {
         warState = false;
         gameRound = false
-    } else if (card1 === card2) {
         const halfDeck = Math.ceil(warArr.length / 2);
         text.innerHTML = "Draw";
         const firstHalf = warArr.slice(0, halfDeck);
@@ -211,9 +218,9 @@ function checkWarWinner(card1, card2) {
         warArr = []
         playerDeck.cards = [...firstHalf, ...playerDeck.cards];
         computerDeck.cards = [...secondHalf, ...computerDeck.cards];
-        warState = false;
-        gameRound = false
+        playerCards.classList.remove("disableCard")
     }
+    warBtn.style.display = "none";
 }
 
 function gameOver(deck) {

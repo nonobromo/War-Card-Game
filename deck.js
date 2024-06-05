@@ -59,6 +59,7 @@ export class Card {
         const cardDiv = document.createElement("div");
         cardDiv.innerHTML = this.suit
         cardDiv.classList.add("card", this.color);
+        cardDiv.id = `${this.value}${this.suit}`
         cardDiv.dataset.value = `${this.value} `
         return cardDiv;
     }
