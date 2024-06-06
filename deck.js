@@ -45,7 +45,7 @@ export default class Deck {
     }
 }
 
-export class Card {
+class Card {
     constructor(suit, value) {
         this.suit = suit;
         this.value = value;
