@@ -29,7 +29,7 @@ const CARD_VALUE_MAP = {
 }
 
 //Click handler events for each situation
-playerCards.addEventListener("mouseover", () => {
+playerCards.addEventListener("click", () => {
     if (stopGame) {
         startGame();
         return
